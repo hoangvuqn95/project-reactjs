@@ -1,19 +1,18 @@
-import axiosClient from "./axiosClient";
+import axiosClient from './axiosClient';
 
 const productApi = {
   getAll(params) {
-    const url = "/products";
+    const url = '/products';
     return axiosClient.get(url, { params });
   },
 
   getById(id) {
     const url = `/products/${id}`;
-    console.log("Duong dan: ", url);
     return axiosClient.get(url);
   },
 
   add(data) {
-    const url = "/products";
+    const url = '/products';
     return axiosClient.post(url, data);
   },
 
