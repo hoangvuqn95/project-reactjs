@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Box, TextField } from "@material-ui/core";
-import { Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Box, TextField } from '@material-ui/core';
+import { Controller } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 InputField.propTypes = {
   name: PropTypes.string.isRequired,
@@ -17,9 +17,9 @@ InputField.propTypes = {
 };
 
 InputField.defaultProps = {
-  label: "",
+  label: '',
   disabled: false,
-  type: "text",
+  type: 'text',
   // defaultValues: [],
 };
 

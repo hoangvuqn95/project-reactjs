@@ -91,7 +91,7 @@ function ListingPage(props) {
   // Remove one product
   const handleRemoveClick = async (product) => {
     try {
-      const message = `Are you sure to remove product named "${product.name}"?.`;
+      const message = `Are you sure to remove product named "${product.name}"? `;
       if (window.confirm(message)) {
         await productApi.remove(product.id);
         setFilters((x) => ({ ...x }));

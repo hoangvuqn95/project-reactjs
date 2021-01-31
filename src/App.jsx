@@ -1,10 +1,12 @@
-import Footer from "components/Footer";
-import Header from "components/Header";
-import HomePage from "features/HomePage";
-import PostFeature from "features/Post";
-import ProductFeatures from "features/Product";
-import { Route, Switch } from "react-router-dom";
-import "./App.css";
+import Footer from 'components/Footer';
+import Header from 'components/Header';
+import NotFound from 'components/NotFound';
+import AccountFeature from 'features/Account';
+import HomePage from 'features/HomePage';
+import PostFeature from 'features/Post';
+import ProductFeatures from 'features/Product';
+import { Route, Switch } from 'react-router-dom';
+import './App.css';
 
 function App() {
   return (
@@ -17,6 +19,10 @@ function App() {
         <Route path="/products" component={ProductFeatures} />
 
         <Route path="/posts" component={PostFeature} />
+
+        <Route path="/account" component={AccountFeature} />
+
+        <Route component={NotFound} />
       </Switch>
 
       <Footer />
