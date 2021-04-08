@@ -1,11 +1,13 @@
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardMedia,
   Grid,
   IconButton,
   makeStyles,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
@@ -17,12 +19,14 @@ ListProduct.propTypes = {
   productList: PropTypes.array,
   onRemove: PropTypes.func,
   onEdit: PropTypes.func,
+  onClickAddToCart: PropTypes.func,
 };
 
 ListProduct.defaultProps = {
   productList: [],
   onEdit: null,
   onRemove: null,
+  onClickAddToCart: null,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '10px',
     position: 'relative',
   },
-  cardProduct: {},
   media: {
     paddingTop: '56.25%',
     height: 200,
@@ -41,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     height: 100,
     width: '100%',
     padding: '0 10px',
+    textAlign: 'center',
+
+    textTransform: 'uppercase',
   },
   buttonGroup: {
     position: 'absolute',
@@ -51,9 +57,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// insert '$1.' front of 000 and character '₫'
+function currencyFormat(num) {
+  return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + '₫';
+}
+
 function ListProduct(props) {
   const classes = useStyles();
-  const { productList, onEdit, onRemove } = props;
+  const { productList, onEdit, onRemove, onClickAddToCart } = props;
 
   return (
     <div>
@@ -69,16 +80,14 @@ function ListProduct(props) {
             <Link to={`products/${product.id}`} style={{ textDecoration: 'none' }}>
               <Card>
                 <CardMedia
-                  image={product.images[0]}
+                  image={product?.images?.[Math.trunc(Math.random() * product.images.length)]}
                   title={product.name}
                   className={classes.media}
                 />
                 <CardActionArea className={classes.content}>
                   <Typography variant="body1">{product.name}</Typography>
                   <Typography variant="body1" style={{ fontWeight: 'bold' }}>
-                    {product.salePrice}
-                    <span style={{ textDecoration: 'underline' }}>đ</span>
-                    {/* Because this is a simple calculator, in life never have simple calculator, default backend have to make calculator for a ecommerce website */}
+                    {currencyFormat(product.salePrice)}
 
                     <span
                       style={{
@@ -92,25 +101,29 @@ function ListProduct(props) {
                       100 - (product.salePrice / product.originalPrice) * 100
                     )}%`}</span>
                   </Typography>
-                  <Typography variant="body1">
-                    <span style={{ textDecoration: 'line-through' }}>{product.originalPrice}</span>
-                    <span style={{ textDecoration: 'underline' }}>đ</span>
-                  </Typography>
                 </CardActionArea>
               </Card>
             </Link>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={() => onClickAddToCart && onClickAddToCart(product)}
+            >
+              Add To Cart
+            </Button>
 
             <Box className={classes.buttonGroup}>
-              <IconButton
-                color="primary"
-                aria-label="Edit button"
-                onClick={() => onEdit && onEdit(product)}
-              >
-                <Edit />
-              </IconButton>
-              <IconButton color="primary" onClick={() => onRemove && onRemove(product)}>
-                <Delete />
-              </IconButton>
+              <Tooltip title="Edit">
+                <IconButton color="primary" onClick={() => onEdit && onEdit(product)}>
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Remove">
+                <IconButton color="primary" onClick={() => onRemove && onRemove(product)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
             </Box>
           </Grid>
         ))}

@@ -1,4 +1,4 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import React, { useState } from 'react';
 
@@ -21,7 +21,11 @@ const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     width: '100%',
-    transition: '0.5s',
+    transition: '.5s',
+
+    '&:hover': {
+      transition: '0.5s',
+    },
   },
 }));
 
@@ -38,7 +42,7 @@ function SimpleRating(props) {
           name="simple-controlled"
           precision={0.5}
           value={value}
-          size="small"
+          size="medium"
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
@@ -47,7 +51,7 @@ function SimpleRating(props) {
           }}
         />
         {value !== null && (
-          <Box ml={1} style={{ fontWeight: 'bold' }}>
+          <Box ml={1} style={{ fontWeight: 'bold', fontSize: '20px' }}>
             {labels[hover !== -1 ? hover : value]}
           </Box>
         )}

@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, TextField } from '@material-ui/core';
+import _get from 'lodash.get';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Controller } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 
 InputField.propTypes = {
   name: PropTypes.string.isRequired,
@@ -10,34 +10,36 @@ InputField.propTypes = {
 
   label: PropTypes.string,
   disabled: PropTypes.bool,
-  // Type dung` cho input nhap so'
   type: PropTypes.string,
-  // defaultValues dung` cho input 1 array
-  // defaultValues: PropTypes.array,
+  defaultValue: PropTypes.string,
 };
 
 InputField.defaultProps = {
   label: '',
   disabled: false,
   type: 'text',
-  // defaultValues: [],
+  defaultValue: undefined,
 };
 
 function InputField(props) {
-  const { name, label, form, disabled, type } = props;
+  const { name, label, form, disabled, type, defaultValue } = props;
   const { errors } = form;
-  const errorMessage = errors[name]?.message;
+  const errorMessage = _get(errors, `${name}.message`);
   const hasError = !!errorMessage;
+  // Console.log({errors}) for check error of this form field, system output when have errors  
+  console.log({ errors });
 
   return (
     <Box mt={1} mb={2}>
       <Controller
         name={name}
         control={form.control}
+        defaultValue={defaultValue}
         render={({ value, onChange, onBlur }) => (
           <TextField
             fullWidth
             type={type}
+            name={name}
             value={value}
             onChange={onChange}
             onBlur={onBlur}

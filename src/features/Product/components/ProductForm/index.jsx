@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Typography } from '@material-ui/core';
 import InputField from 'components/FormFields/InputField';
-import PhotoField from 'components/FormFields/PhotoField';
 import SelectField from 'components/FormFields/SelectField';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -41,30 +40,33 @@ function ProductForm({ initialValues, onSubmit }) {
           return value >= 10000;
         }
       ),
-    picture: yup
-      .mixed()
-      .required('You need a picture for this product')
-      .test('file size', 'This file is so large', (value) => {
-        return value && value[0].size < 40000;
-      }),
-    // Classify product
-    classify: yup.string().required('Please chose classify of this product'),
+
+    // images: yup.array().of(
+    //   yup.object().shape({
+    //     picture: yup
+    //       .mixed()
+    //       .required('You need a picture for this product')
+    //       .test('File size', 'This file is so large(<4mb)', (value) => {
+    //         return value && value[0].size < 40000;
+    //       }),
+    //   })
+    // ),
+
+    // Classify product - Loai san pham
+    categoryId: yup.string().required('Please chose categories of this product'),
   });
 
-  const { form, register } = useForm({
+  const form = useForm({
     mode: 'onBlur',
     defaultValues: initialValues || {
       name: '',
       salePrice: '',
       originalPrice: '',
-      picture: '',
-      classify: '',
+      // images: [],
+      categoryId: '',
     },
     resolver: yupResolver(schema),
   });
-
-  const pictureUrl = form.watch('picture');
-  console.log('picture', pictureUrl);
 
   const handleFormSubmit = async (values) => {
     if (onSubmit) {
@@ -72,14 +74,14 @@ function ProductForm({ initialValues, onSubmit }) {
     }
   };
 
+  // when data is sending to api, for dodge and limit user click many time Submit button make error for system.
   const { isSubmitting } = form.formState;
 
   return (
     <form noValidate autoComplete="off" onSubmit={form.handleSubmit(handleFormSubmit)}>
-      <Typography variant="h5">Product Form</Typography>
-
-      <label>Image of product:</label>
-      <PhotoField name="picture" type="file" ref={register} label="photo" form={form} />
+      <Typography variant="h5" style={{ textAlign: 'center' }}>
+        Product Form
+      </Typography>
 
       <label>Product Name:</label>
       <InputField name="name" label="Product Name" form={form} />
@@ -90,21 +92,18 @@ function ProductForm({ initialValues, onSubmit }) {
       <label>Original Price(VND):</label>
       <InputField name="originalPrice" type="number" label="Original Price" form={form} />
 
-      <label>Classify Product:</label>
+      <label>Categories:</label>
       <SelectField
-        name="classify"
-        label="Classify Product"
+        name="categoryId"
+        label="Category Product"
         form={form}
         options={[
-          { value: 'Laptop', label: 'Laptop' },
-          { value: 'Houseware', label: 'Houseware' },
-          { value: 'Clothes', label: 'Clothes' },
-          { value: 'T-Shirt', label: 'T-Shirt' },
-          { value: 'Shirt', label: 'Shirt' },
-          { value: 'Pants', label: 'Pants' },
-          { value: 'Toy', label: 'Toy' },
-          { value: 'Car', label: 'Car' },
-          { value: 'Telephone', label: 'Telephone' },
+          { label: 'Clothes', value: 'c45eca94-70ef-4264-8714-df482e3d0eff' },
+          { label: 'Mask', value: '3ab235d3-7b26-49ad-a5c1-0d4b2f91056e' },
+          { label: 'Esthetics', value: '641710c1-5db5-4651-8fad-58ae8f7c7a34' },
+          { label: 'Laptop', value: '7922f29f-32eb-4e88-bde8-c283a26da4ba' },
+          { label: 'Disk Technology', value: 'ea0cfab5-ecac-48fc-a84a-16e869c37620' },
+          { label: 'Telephone', value: 'b4fce5af-d6d5-4438-876d-a7d436087097' },
         ]}
       />
 
