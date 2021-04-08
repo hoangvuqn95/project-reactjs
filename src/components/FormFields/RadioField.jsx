@@ -5,7 +5,7 @@ import {
   FormHelperText,
   FormLabel,
   Radio,
-  RadioGroup
+  RadioGroup,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';

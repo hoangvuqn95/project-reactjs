@@ -1,54 +1,40 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
-export default function App() {
-  const [image, setImage] = useState({ preview: "", raw: "" });
+UploadImage.propTypes = {};
 
-  const handleChange = e => {
-    if (e.target.files.length) {
-      setImage({
-        preview: URL.createObjectURL(e.target.files[0]),
-        raw: e.target.files[0]
-      });
+function UploadImage(props) {
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
+
+  const types = ['image/png', 'image/jpeg'];
+
+  const changeHandler = (e) => {
+    const selected = e.target.files[0];
+    console.log(selected);
+
+    if (selected && types.includes(selected.type)) {
+      setFile(selected);
+      setError('');
+    } else {
+      setFile(null);
+      setError('Please select an image file(png or jpeg)');
     }
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image.raw);
-
-    await fetch("YOUR_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
-      body: formData
-    });
-  };
-
   return (
-    <div>
-      <label htmlFor="upload-button">
-        {image.preview ? (
-          <img src={image.preview} alt="dummy" width="300" height="300" />
-        ) : (
-          <>
-            <span className="fa-stack fa-2x mt-3 mb-2">
-              <i className="fas fa-circle fa-stack-2x" />
-              <i className="fas fa-store fa-stack-1x fa-inverse" />
-            </span>
-            <h5 className="text-center">Upload your photo</h5>
-          </>
-        )}
+    <form>
+      <label>
+        <input type="file" onChange={changeHandler} />
+        <span>+</span>
       </label>
-      <input
-        type="file"
-        id="upload-button"
-        style={{ display: "none" }}
-        onChange={handleChange}
-      />
-      <br />
-      <button onClick={handleUpload}>Upload</button>
-    </div>
+      <div className="output">
+        {error && <div className="error">{error}</div>}
+        {file && <div>{file.name}</div>}
+        {file && <ProgressBar file={file} setFile={setFile} />}
+      </div>
+    </form>
   );
 }
+
+export default UploadImage;

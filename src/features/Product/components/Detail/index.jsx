@@ -1,241 +1,112 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import {
-  Add,
-  AssignmentTurnedInOutlined,
-  History,
-  Remove,
-  Star,
-  StorefrontOutlined,
-  VerifiedUser,
-} from '@material-ui/icons';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import SimpleRating from 'components/Rating/SimpleRating';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-Detail.propTypes = {};
+Detail.propTypes = {
+  product: PropTypes.object,
+};
+
+Detail.defaultProps = {
+  product: {},
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    display: 'flex',
-  },
-
-  // Card
-  cardDetail: {
-    backgroundColor: 'white',
-    width: '1200px',
-    height: '500px',
-    display: 'flex',
-    flexDirection: 'row',
-
-    margin: '10px auto',
-    padding: '10px',
-    boxShadow: '0 0 5px 0.5px',
-  },
-
-  // Image size
-  media: {
-    width: '600px',
-    border: '1px solid black',
-    marginRight: '10px',
-  },
-
-  // Content size
-  content: {
+    // flexGrow: 1,
     width: '100%',
+    height: '150px',
     margin: '0 auto',
-    padding: '10px',
+    padding: '10px auto',
+
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 
-  // Have price, shop, and buy go to the cart
-  priceAndInformationShop: {
+  productName: {
     width: '100%',
+    height: '100px',
+    padding: '10px auto',
+
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    color: '#4caf50',
+    marginBottom: '10px',
+    fontWeight: 'bold',
+  },
+
+  // rating style
+  rating: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
 
   // Price
   classPrice: {
-    width: '450px',
-    marginRight: '5px',
-    padding: '5px 10px',
-  },
-  // Shop
-  classInformationShop: {
-    width: '250px',
-    border: '1px solid #d8dcda',
-    padding: '10px',
-    margin: '5px auto',
-  },
+    width: '100%',
 
-  smallBox: {
+    padding: '5px 10px',
+    color: '#4caf50',
+
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginBottom: '5px',
+    borderBottom: '2px solid green',
   },
-
+  // promotionPercent
   percentSalePrice: {
-    backgroundColor: '#f3455d',
     color: 'white',
-    padding: '2px 1px',
-    margin: '0 10px',
-    borderRadius: '10%',
+    fontSize: '35px',
+    fontWeight: 'bold',
+    backgroundColor: 'deeppink',
+    padding: '10px',
+
+    borderTopLeftRadius: '20%',
+    borderBottomRightRadius: '20%',
   },
 }));
 
-function Detail({ data }) {
+// insert '$1.' front of 000 and character '₫'
+function currencyFormat(num) {
+  return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + '₫';
+}
+
+function Detail({ product }) {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
-      <Card className={classes.cardDetail}>
-        <CardMedia className={classes.media} image={data.images[0]} title={data.name} />
-        {console.log('data:', data)}
+      <Box className={classes.productName}>
+        <Typography variant="h3" style={{ fontWeight: 'bold' }}>
+          {product.name}
+        </Typography>
+      </Box>
 
-        <CardContent className={classes.content}>
-          <Box>
-            <Typography variant="h5">{data.name}</Typography>
-            {/* Rating */}
-            <Typography variant="body1">
-              <SimpleRating />
-            </Typography>
-          </Box>
+      {/* Rating */}
+      <Box className={classes.rating}>
+        <SimpleRating />
+      </Box>
+      <Box className={classes.classPrice}>
+        <Typography variant="h4" style={{ fontWeight: 'bold' }}>
+          {currencyFormat(product.salePrice || 0)}
+        </Typography>
 
-          <Box className={classes.priceAndInformationShop}>
-            <Box className={classes.classPrice}>
-              <Box
-                style={{
-                  backgroundColor: '#d8dcda',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  padding: '10px',
-                }}
-              >
-                <Typography variant="h4" style={{ fontWeight: 'bold' }}>
-                  {data.salePrice} <span style={{ textDecoration: 'underline' }}>đ</span>
-                </Typography>
+        <Typography variant="body1">
+          <span className={classes.percentSalePrice}>{`-${Math.floor(
+            100 - (product.salePrice / product.originalPrice) * 100
+          )}%`}</span>
+        </Typography>
 
-                <Typography variant="body1">
-                  <span className={classes.percentSalePrice}>{`-${Math.floor(
-                    100 - (data.salePrice / data.originalPrice) * 100
-                  )}%`}</span>
-                </Typography>
-
-                <Typography variant="body1">
-                  <span style={{ textDecoration: 'line-through' }}>{data.originalPrice}đ</span>
-                </Typography>
-              </Box>
-
-              <Box style={{ border: '1px solid #d8dcda', marginTop: '15px', padding: '10px' }}>
-                <Typography variant="body1">Màu sắc:</Typography>
-                <Button variant="outlined" color="primary" style={{ marginRight: '5px' }}>
-                  Xanh duong
-                </Button>
-                <Button variant="outlined" color="primary" style={{ marginRight: '5px' }}>
-                  Hong Phan
-                </Button>
-                <Button variant="outlined" color="primary" style={{ marginRight: '5px' }}>
-                  Bac
-                </Button>
-                <Button variant="outlined" color="primary">
-                  Den
-                </Button>
-              </Box>
-
-              <Box
-                style={{
-                  border: '1px solid #d8dcda',
-                  marginTop: '15px',
-                  padding: '10px',
-                  fontSize: '18px',
-
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-around',
-                  // fontWeight: 'bold',
-                }}
-              >
-                So luong:
-                <Box>
-                  <Button variant="outlined" color="secondary">
-                    <Remove />
-                  </Button>
-                  <span>{`0${9}`.slice(-2)}</span>
-                  <Button variant="outlined" color="secondary">
-                    <Add />
-                  </Button>
-                </Box>
-                <Button variant="contained" color="secondary">
-                  Chon mua
-                </Button>
-              </Box>
-            </Box>
-
-            {/* Name, price and information of the shop */}
-            <Box className={classes.classInformationShop}>
-              <Box className={classes.smallBox}>
-                <Avatar size="small">T</Avatar>
-                <Typography
-                  variant="body1"
-                  style={{ fontWeight: 'bold', textTransform: 'uppercase' }}
-                >
-                  Technology shop
-                </Typography>
-              </Box>
-
-              <Box className={classes.smallBox}>
-                <Box width="50px" textAlign="center">
-                  4.2/ 5{' '}
-                  <span>
-                    <Star size="small" color="secondary" />
-                  </span>
-                </Box>
-                <Box width="50px" textAlign="center">
-                  123 Followers
-                </Box>
-              </Box>
-
-              <Box className={classes.smallBox}>
-                <Button variant="outlined" startIcon={<StorefrontOutlined />} color="primary">
-                  shop
-                </Button>
-                <Button variant="outlined" color="primary" startIcon={<Add />}>
-                  Follow
-                </Button>
-              </Box>
-
-              <Box
-                className={classes.smallBox}
-                style={{ borderTop: '1px solid #d8dcda', padding: '10px' }}
-              >
-                <Box textAlign="center" width="60px">
-                  <VerifiedUser color="primary" />
-                  <Typography variant="body2">
-                    Hoàn tiền 100% <span style={{ textDecoration: 'underline' }}>nếu giả</span>
-                  </Typography>
-                </Box>
-                <Box textAlign="center" width="60px">
-                  <AssignmentTurnedInOutlined color="primary" />
-                  <Typography variant="body2">Mở hộp kiểm tra nhận hàng</Typography>
-                </Box>
-                <Box textAlign="center" width="60px">
-                  <History color="primary" />
-                  <Typography variant="body2">Đổi trả trong 30 ngày nếu sp lỗi</Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
+        <Typography variant="h5">
+          <span style={{ textDecoration: 'line-through' }}>
+            {currencyFormat(product.originalPrice || 0)}
+          </span>
+        </Typography>
+      </Box>
     </div>
   );
 }

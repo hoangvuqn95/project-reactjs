@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
     padding: '10px auto',
-    margin: '5px 100px',
+    margin: '20px auto',
+    marginBottom: '10px',
 
     display: 'flex',
     justifyContent: 'space-between',
@@ -63,30 +64,20 @@ function Footer(props) {
           <Typography variant="body2">Gửi yêu cầu hỗ trợ</Typography>
           <Typography variant="body2">Hướng dẫn đặt hàng</Typography>
           <Typography variant="body2">Phương thức vận chuyển</Typography>
-          <Typography variant="body2">Chính sách đổi trả</Typography>
-          <Typography variant="body2">Chính sách hàng nhập khẩu</Typography>
-          <Typography variant="body2">Hỗ trợ khách hàng: hotro@tiki.vn</Typography>
-          <Typography variant="body2">Báo lỗi bảo mật: security@tiki.vn</Typography>
         </Box>
         <Box className={classes.smallContent}>
           <Typography variant="body1" style={{ fontWeight: 'bold' }}>
-            VỀ TIKI
+            VỀ E-COMMERCE
           </Typography>
-          <Typography variant="body2">Giới thiệu Tiki</Typography>
-          <Typography variant="body2">Tuyển Dụng</Typography>
           <Typography variant="body2">Chính sách bảo mật thanh toán</Typography>
           <Typography variant="body2">Chính sách bảo mật thông tin cá nhân</Typography>
-          <Typography variant="body2">Chính sách giải quyết khiếu nại</Typography>
-          <Typography variant="body2">Điều khoản sử dụng</Typography>
-          <Typography variant="body2">Giới thiệu Tiki Xu</Typography>
-          <Typography variant="body2">Bán hàng doanh nghiệp</Typography>
         </Box>
         <Box className={classes.smallContent}>
           <Typography variant="body1" style={{ fontWeight: 'bold' }}>
             HỢP TÁC VÀ LIÊN KẾT
           </Typography>
           <Typography variant="body2">Quy chế hoạt động Sàn GDTMĐT</Typography>
-          <Typography variant="body2">Bán hàng cùng Tiki</Typography>
+          <Typography variant="body2">Bán hàng cùng E-commerce</Typography>
         </Box>
         <Box className={classes.smallContent}>
           <Typography variant="body1" style={{ fontWeight: 'bold' }}>

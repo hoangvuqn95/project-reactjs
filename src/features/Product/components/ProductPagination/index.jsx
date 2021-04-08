@@ -1,7 +1,7 @@
-import { Box, makeStyles } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
-import PropTypes from "prop-types";
-import React from "react";
+import { Box, makeStyles } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 ProductPagination.propTypes = {
   count: PropTypes.number.isRequired,
@@ -17,9 +17,9 @@ ProductPagination.defaultProps = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    justifyContent: "center",
-    "& > *": {
+    display: 'flex',
+    justifyContent: 'center',
+    '& > *': {
       marginTop: theme.spacing(2),
     },
   },
@@ -38,9 +38,9 @@ function ProductPagination({ count, page, onPageChange }) {
   return (
     <Box className={classes.root}>
       <Pagination
+        color="primary"
         count={count}
         page={page}
-        variant="outlined"
         shape="rounded"
         onChange={(e, page) => handlePageChange(page)}
       />
